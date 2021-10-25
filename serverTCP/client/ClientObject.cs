@@ -38,7 +38,7 @@ namespace serverTCP
 
                 // Посылаем правила игры вошедшему клиенту
                 server.BroadcastMessageOneClient(server.rool1 + server.rool2, this.Id);
-                string tableStrOne = "Игровая табюлица:\n" + server.GameServer.GetTableStr();
+                string tableStrOne = "Игровая таблица:\n" + server.GameServer.GetTableStr();
                 server.BroadcastMessageOneClient(tableStrOne, this.Id);
 
                 //server.BroadcastMessageOneClient("Ваш ход: ", this.Id);
@@ -79,10 +79,7 @@ namespace serverTCP
                             Console.WriteLine(message); // Пишем в консоле сервера сообщение переденнаное клиентом (номер ячейки и напрвление движения)
                             server.BroadcastMessage(message, this.Id); // Транслируем сообщение полученным клиентам
 
-                            string tableStr = "Игровая табюлица:\n" + server.GameServer.GetTableStr();
-                            Console.WriteLine(tableStr);
-                            server.BroadcastMessage(tableStr, this.Id); // Транслируем сообщение полученным клиентам
-                            server.BroadcastMessageOneClient(tableStr, this.Id);
+                            BroadcastAllGameTable();
 
                             if (server.GameServer.TheWinGame())
                             {
@@ -93,10 +90,8 @@ namespace serverTCP
                                 server.BroadcastMessageOneClient(winStr, this.Id);
 
                                 server.GameServer.StartNewGame();
-                                string tableStrNew = "Игровая табюлица:\n" + server.GameServer.GetTableStr();
-                                Console.WriteLine(tableStrNew);
-                                server.BroadcastMessage(tableStrNew, this.Id); // Транслируем сообщение полученным клиентам
-                                server.BroadcastMessageOneClient(tableStrNew, this.Id);
+
+                                BroadcastAllGameTable();
                             }
                         }
 
@@ -134,6 +129,13 @@ namespace serverTCP
                 server.RemoveConnection(this.Id);
                 Close();
             }
+        }
+
+        private void BroadcastAllGameTable()
+        {
+            string tableStrNew = "Игровая таблица:\n" + server.GameServer.GetTableStr();
+            Console.WriteLine(tableStrNew);
+            server.BroadcastMessageAllClient(tableStrNew);
         }
 
         // чтение входящего сообщения и преобразование в строку

@@ -98,6 +98,16 @@ namespace serverTCP
             }
         }
 
+        // трансляция сообщения всем клиентам
+        protected internal void BroadcastMessageAllClient(string message)
+        {
+            byte[] data = Encoding.Unicode.GetBytes(message);
+            for (int i = 0; i < clients.Count; i++)
+            {
+                clients[i].Stream.Write(data, 0, data.Length); //передача данных
+            }
+        }
+
         // отключение всех клиентов
         protected internal void Disconnect()
         {
