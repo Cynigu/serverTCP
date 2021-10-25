@@ -38,7 +38,7 @@ namespace serverTCP
 
         public string GetTableStr()
         {
-            string str = "";
+            string str = "1   2   3\n";
             for (int i=0, c =0; i<table.CountRow; i++)
             {
                 for (int j=0; j < table.CountColumnes; j++, c++)
