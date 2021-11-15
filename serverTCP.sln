@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "serverTCP", "serverTCP\serv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "clientTCP", "clientTCP\clientTCP.csproj", "{A8AB9B09-6D98-438A-B5EA-116CA5F62963}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProjectForSerber", "TestProjectForSerber\TestProjectForSerber.csproj", "{C80C93E6-CF75-4B36-A684-4607C72D3619}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProjectForSerber", "TestProjectForSerber\TestProjectForSerber.csproj", "{C80C93E6-CF75-4B36-A684-4607C72D3619}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -10,22 +10,12 @@ namespace serverTCP
 {
     public class ServerObject
     {
+        private const int port = 8888;
         private static TcpListener tcpListener; // сервер для прослушивания
         private List<ClientObject> clients = new List<ClientObject>(); // все подключения
         private Game game = new Game();
 
         public Game GameServer => game;
-
-        public string rool1 = "Правила: \nДано поле 5*5 клеток и 15 фишек трех цветов, по пять каждого цвета.\n" +
-                    "Каждая клетка поля может быть либо блокирована, либо занята одной фишкой любого цвета, либо свободна.\n" +
-                    "На поле выставлены все фишки, 6 клеток блокированы и 4 клетки свободны.\n" +
-                    "Блокированные клетки остаются таковыми всегда.Фишки мы можем передвигать на \n" +
-                    "соседнее свободное место по горизонтали или вертикали. Требуется, передвигая фишки,\n" +
-                    "выставить их в три вертикальных ряда соответственно цветам, стоящим над полем.\n";
-        public string rool2 = "\nЧтобы сделать ход нужно написать номер ячеки (от 0 до 24 (включая))\nи напрвление движения куда двинуть ячейку " +
-                    "(влево - л, вправо - п, вверх - в, вниз - н) через пробел. \nПример: \"2 л\" \n";
-
-            
 
         // Добавление подключения
         protected internal void AddConnection(ClientObject clientObject)
@@ -48,11 +38,11 @@ namespace serverTCP
         {
             try
             {
-                tcpListener = new TcpListener(IPAddress.Any, 8888);
+                tcpListener = new TcpListener(IPAddress.Any, port);
                 tcpListener.Start();
                 Console.WriteLine("Сервер запущен. Ожидание подключений...");
 
-                Console.WriteLine(rool1 + rool2);
+                Console.WriteLine(GameServer.Rool1 + GameServer.Rool2);
                 Console.WriteLine("Игровая таблица:");
                 Console.WriteLine(GameServer.GetTableStr());
 
@@ -119,5 +109,11 @@ namespace serverTCP
             }
             Environment.Exit(0); //завершение процесса
         }
+
+        protected internal int GetNumberOfClients()
+        {
+            return clients.Count;
+        }
+
     }
 }

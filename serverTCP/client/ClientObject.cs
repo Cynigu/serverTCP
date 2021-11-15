@@ -37,10 +37,13 @@ namespace serverTCP
                 Console.WriteLine(message); // сообщение о входе на сервер
 
                 // Посылаем правила игры вошедшему клиенту
-                server.BroadcastMessageOneClient(server.rool1 + server.rool2, this.Id);
+                
+                server.BroadcastMessageOneClient(server.GameServer.Rool1 + server.GameServer.Rool2, this.Id);
                 string tableStrOne = "Игровая таблица:\n" + server.GameServer.GetTableStr();
                 server.BroadcastMessageOneClient(tableStrOne, this.Id);
 
+                // Посылаем кол-во играков вошедшему игроку
+                server.BroadcastMessageOneClient("Всего человек в игре на данный момент (включая вас): " + server.GetNumberOfClients() + "\n", this.Id);
                 //server.BroadcastMessageOneClient("Ваш ход: ", this.Id);
                 // в бесконечном цикле получаем сообщения от клиента
                 while (true)
@@ -84,7 +87,7 @@ namespace serverTCP
                             if (server.GameServer.TheWinGame())
                             {
                                 string winStr = "!!!! Игра закончена, вы победили !!!! (Кол-во выигранных игр: " 
-                                    + Game.WinCount.ToString() + ")";
+                                    + server.GameServer.WinCount.ToString() + ")";
                                 Console.WriteLine(winStr);
                                 server.BroadcastMessage(winStr, this.Id); // Транслируем сообщение полученным клиентам
                                 server.BroadcastMessageOneClient(winStr, this.Id);
@@ -99,7 +102,7 @@ namespace serverTCP
                         {
                             message = "Некорректно записан ход";
                             server.BroadcastMessageOneClient(message, this.Id);
-                            server.BroadcastMessageOneClient(server.rool2, this.Id);
+                            server.BroadcastMessageOneClient(server.GameServer.Rool2, this.Id);
                             message = String.Format("{2}| {0}: {1}", userName, message, DateTime.Now.ToString("f"));
                             Console.WriteLine(message);
                         }

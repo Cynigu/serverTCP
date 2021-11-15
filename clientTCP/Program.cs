@@ -16,12 +16,14 @@ namespace clientTCP
 
         static void Main(string[] args)
         {
+            Console.Write("Введите ip-адрес (192.168.0.104): ");
+            string host1 = Console.ReadLine();
             Console.Write("Введите свое имя: ");
             userName = Console.ReadLine();
             client = new TcpClient();
             try
             {
-                client.Connect(host, port); //подключение клиента
+                client.Connect(host1, port); //подключение клиента
                 stream = client.GetStream(); // получаем поток
 
                 string message = userName;
