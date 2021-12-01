@@ -77,7 +77,7 @@ namespace serverTCP
             return true;
         }
 
-        // Реализация шага, возвращает статус выбранной ячейки
+        // Реализация шага, возвращает полученную таблицу 
         // direction - в какую сторону сдвинуть блок; Table - таблица до шага,  NumSelecteCell - выбранная ячейка
         public static ITable StepImp(in Direction _direction,in ITable _table,in int _NumSelecteCell)
         {

@@ -9,6 +9,8 @@ namespace serverTCP
         private ITable table;
         public int WinCount { get; set; }
         public int CountGame{ get; set; }
+        public int CountGamers { get; set; }
+        public int NumberGamerForThisStep { get; set; }
 
         private string rool1 = "Правила: \nДано поле 5*5 клеток и 15 фишек трех цветов, по пять каждого цвета.\n" +
                     "Каждая клетка поля может быть либо блокирована, либо занята одной фишкой любого цвета, либо свободна.\n" +
@@ -25,6 +27,8 @@ namespace serverTCP
         {
             CountGame++;
             table = LogicGame.CreateBaseTable();
+            NumberGamerForThisStep = -1;
+            CountGamers = 0;
         }
 
         public void SetTableStep(int numCell, Direction dr)
@@ -40,8 +44,45 @@ namespace serverTCP
             }
 
             table = LogicGame.StepImp(dr, table, numCell);
+            NextClient();
         }
 
+        private void CheckCorrectNumberStep()
+        {
+            if (NumberGamerForThisStep >= CountGamers && CountGamers != 0)
+            {
+                NumberGamerForThisStep = 0;
+            }
+            else if(CountGamers == 0)
+            {
+                NumberGamerForThisStep = -1;
+            }
+        }
+
+        public bool IsMyStep(int myNum)
+        {
+            if (myNum == NumberGamerForThisStep)
+            {
+                return true;
+            }
+
+            CheckCorrectNumberStep();
+            return false;
+        }
+
+        private void NextClient()
+        {
+            NumberGamerForThisStep++;
+            CheckCorrectNumberStep();
+        }
+        protected internal void SetCountClients(int count)
+        {
+            CountGamers = count;
+            if (CountGamers == 1)
+            {
+                NumberGamerForThisStep = 0;
+            }
+        }
         public void StartNewGame()
         {
             CountGame++;

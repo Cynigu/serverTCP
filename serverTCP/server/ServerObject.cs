@@ -13,6 +13,7 @@ namespace serverTCP
         private const int port = 8888;
         private static TcpListener tcpListener; // сервер для прослушивания
         private List<ClientObject> clients = new List<ClientObject>(); // все подключения
+
         private Game game = new Game();
 
         public Game GameServer => game;
@@ -21,6 +22,7 @@ namespace serverTCP
         protected internal void AddConnection(ClientObject clientObject)
         {
             clients.Add(clientObject);
+            GameServer.SetCountClients(clients.Count);
         }
 
         // Исключения клиента из списка подключенных
@@ -31,6 +33,7 @@ namespace serverTCP
             // и удаляем его из списка подключений
             if (client != null)
                 clients.Remove(client);
+            GameServer.SetCountClients(clients.Count);
         }
 
         // прослушивание входящих подключений
@@ -110,10 +113,38 @@ namespace serverTCP
             Environment.Exit(0); //завершение процесса
         }
 
-        protected internal int GetNumberOfClients()
+        protected internal int GetCountOfClients()
         {
             return clients.Count;
         }
+        protected internal bool IsTrueName(string name, string id)
+        {
+            bool t = true;
+            foreach (var client in clients)
+            {
+                if (name == client.UserName && client.Id != id)
+                {
+                    t = false;
+                    break;
+                }
+            }
+            return t;
+        }
 
+        
+
+        protected internal int GetNumberClient(string id)
+        {
+            int t = 0;
+            for (int i=0; i < clients.Count; i++)
+            {
+                if (clients[i].Id == id)
+                {
+                    t = i;
+                    break;
+                }
+            }
+            return t;
+        }
     }
 }
